@@ -9,8 +9,31 @@ services:
       - POSTGRES_NAME=postgres
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
+  redis:
+    image: redis
+    ports:
+      - "6379:6379"
+  celery:
+    build: .
+    command: celery -A eMenu worker --loglevel=Info &
+    depends_on:
+      - redis
+    environment:
+      - POSTGRES_NAME=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+  celery-beat:
+    build: .
+    command: celery -A eMenu beat --loglevel=Info &
+    depends_on:
+      - redis
+    environment:
+      - POSTGRES_NAME=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
   web:
     build: .
+      #command: bash web_startup.sh
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - .:/code
@@ -22,4 +45,7 @@ services:
       - POSTGRES_PASSWORD=postgres
     depends_on:
       - db
+      - celery
+      - celery-beat
+
 

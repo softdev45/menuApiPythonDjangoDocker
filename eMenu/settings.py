@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 from pathlib import Path
 import os 
 
+from celery.schedules import crontab
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -26,7 +28,25 @@ SECRET_KEY = 'django-insecure-9x^%o!rd!wjfdg3zs9#p=hem(8760zjrcc7tu@5f&kw_l%!#_w
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*','localhost','0.0.0.0','127.0.0.1']
+
+
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = "admin@example.com"
+EMAIL_HOST_PASSWORD = "password"
+
+CELERY_BROKER_URL = "redis://redis"
+
+CELERY_BEAT_SCHEDULE = {
+    "send_emails": {
+        "task": "menuapi.tasks.send_emails",
+        "schedule": crontab(minute="*/1"),
+    },
+}
+
 
 
 # Application definition
@@ -40,6 +60,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'django_filters',
+    'django_celery_beat',
     'menuapi',
 ]
 
