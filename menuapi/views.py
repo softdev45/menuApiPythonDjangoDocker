@@ -17,6 +17,11 @@ from rest_framework import filters
 
 from django_filters import rest_framework as django_filters
 
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
+from django.views.decorators.vary import vary_on_cookie, vary_on_headers
+
+
 import logging
 
 logger = logging.getLogger(__name__)
@@ -140,6 +145,8 @@ class MenuMealList(mixins.ListModelMixin, generics.GenericAPIView):
     queryset = Menu.objects.all()
     serializer_class = MenuMealSerializer
 
+    #@method_decorator(cache_page(60))
+    #@method_decorator(vary_on_headers("Authorization",))
     def get(self, request, *args, **kwargs):
         logger.info(f'Getting List view: {request},{args},{kwargs}')
         return self.list(request, *args, **kwargs)

@@ -63,7 +63,7 @@ def send_email(sub, msg, frm, recp):
 @shared_task()
 def send_emails():
     logger.info(f'sending emails...')
-    subject = "Nowe przepisy"
+    SUBJECT = "Nowe przepisy"
     message = get_recipe_news()
     if not message:
         logger.info('Brak zmian w przepisach')
@@ -72,7 +72,7 @@ def send_emails():
     recipient_list = get_recipients_for_news()
     logger.info(f'sending to {recipient_list} following message:\n{message}')
     try:
-        send_email(subject, message, email_from, recipient_list)
+        send_email(SUBJECT, message, email_from, recipient_list)
         result = "Messages sent"
     except Exception as e:
         logger.error("Could not sent email message")
