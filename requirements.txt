@@ -1,5 +1,5 @@
 Django>=3.0,<4.0
-psycopg2>=2.8
+psycopg2-binary>=2.8
 djangorestframework>=3.0
 PyYAML>=6.0
 uritemplate>=4.1.1
@@ -7,3 +7,5 @@ django-filter>=21.1
 celery>=5.2.3
 django-celery-beat>=2.2.1
 redis>=4.1.4
+requests>=2.27.1
+httpie>=3.0.2

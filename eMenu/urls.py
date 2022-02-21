@@ -25,8 +25,8 @@ urlpatterns = [
     path('', include('menuapi.urls')),
     path('api-auth/', include('rest_framework.urls')),
     path('openapi', get_schema_view(
-        title="Your Project",
-        description="API for all things …",
+        title="eMenu",
+        description="API for eMenu Service",
         version="1.0.0"
     ), name='openapi-schema'),
 ]

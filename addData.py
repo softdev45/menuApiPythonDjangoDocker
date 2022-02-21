@@ -3,19 +3,39 @@ from  random import randint as randi, sample
 
 import sys
 
+def get_user_pass():
+    login = 'admin:123123'
+    try:
+        li = sys.argv.index('-l') + 1
+        login = sys.argv[li]
+    except:
+        print('login:pass not provided for -l option; using default')
+    return login
+
 def post_meals(n):
     print(f'posting {n} meals...')
+    login = get_user_pass()
     for i in range(n):
-        subprocess.run(["http","-a", "admin:admin123","-f", "POST","localhost:8000/meals/",
-            f'name=Meal{randi(1,10000)}',f'description=Description{i}',f'prep_time={randi(5,40)}',f'price={randi(3,100)}'])
+        subprocess.run(["http","-a", login,
+            "-f", "POST",
+            "localhost:8000/meals/",
+            f'name=Meal{randi(1,10000)}',
+            f'description=Description{i}',
+            f'prep_time={randi(5,40)}',
+            f'price={randi(3,100)}'])
 
 def post_menus(n,mc):
     print(f'posting {n} menus...')
+    login = get_user_pass()
     for i in range(n):
-        size = randi(3,mc)-1
+        size = randi(1,mc)-1
         rndmeals = ','.join(map(str,sample(range(1,mc),size)))
-        subprocess.run(["http","-a", "admin:admin123", "POST","localhost:8000/menus/",
-            f'name=Menu{randi(1,10000)}',f'description=Description{i}',f'meals:=[{rndmeals}]'])
+        subprocess.run(["http","-a", login,
+            "POST",
+            "localhost:8000/menus/",
+            f'name=Menu{randi(1,10000)}',
+            f'description=Description{i}',
+            f'meals:=[{rndmeals}]'])
 
 
 if __name__ == '__main__':
