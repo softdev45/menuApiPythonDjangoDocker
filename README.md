@@ -18,7 +18,7 @@ Views and Serialization has NOT been tested with unittests because it uses ready
 and therefor not much coding was required.
 
 **NOTE:**
-Testing API REST service using tools provided with Django REST Framework has NOT been successful since there probably is an issue in the version of DRF used.
+Testing API REST service using tools provided with Django REST Framework has NOT been COMPLETELY successful since there probably is an issue in the version of DRF used.
 *More investigation required.*
 
 ##Config 

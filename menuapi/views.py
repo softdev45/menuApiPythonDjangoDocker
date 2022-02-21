@@ -36,25 +36,32 @@ def signup(request):
         form = SignUpForm()
     return render(request, 'signup.html', {'form': form})
 
+
 def index(request):
     return render(request, 'index.html')
 
 
 class MealFilter(django_filters.FilterSet):
 
-    added_on__date = django_filters.DateTimeFilter(field_name='added_on', lookup_expr='date')
-    added_on__gt = django_filters.DateTimeFilter(field_name='added_on', lookup_expr='gt')
-    added_on__lt = django_filters.DateTimeFilter(field_name='added_on', lookup_expr='lt')
+    added_on__date = django_filters.DateTimeFilter(
+        field_name='added_on', lookup_expr='date')
+    added_on__gt = django_filters.DateTimeFilter(
+        field_name='added_on', lookup_expr='gt')
+    added_on__lt = django_filters.DateTimeFilter(
+        field_name='added_on', lookup_expr='lt')
 
-    modified_on__date = django_filters.DateTimeFilter(field_name='modified_on', lookup_expr='date')
-    modified_on__gt = django_filters.DateTimeFilter(field_name='modified_on', lookup_expr='gt')
-    modified_on__lt = django_filters.DateTimeFilter(field_name='modified_on', lookup_expr='lt')
+    modified_on__date = django_filters.DateTimeFilter(
+        field_name='modified_on', lookup_expr='date')
+    modified_on__gt = django_filters.DateTimeFilter(
+        field_name='modified_on', lookup_expr='gt')
+    modified_on__lt = django_filters.DateTimeFilter(
+        field_name='modified_on', lookup_expr='lt')
 
     name = django_filters.CharFilter(lookup_expr='icontains')
 
     class Meta:
         model = Meal
-        fields ={'modified_on' : ['lt', 'gt'] }
+        fields = {'modified_on': ['lt', 'gt']}
 
 
 class MealList(generics.ListCreateAPIView):
@@ -62,10 +69,10 @@ class MealList(generics.ListCreateAPIView):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     queryset = Meal.objects.all()
     serializer_class = MealSerializer
-    filter_backends = (filters.OrderingFilter,django_filters.DjangoFilterBackend)
+    filter_backends = (filters.OrderingFilter,
+                       django_filters.DjangoFilterBackend)
     ordering_fields = ['name']
     filterset_class = MealFilter
-    
 
 
 class MealDetail(generics.RetrieveUpdateDestroyAPIView):
@@ -74,21 +81,28 @@ class MealDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Meal.objects.all()
     serializer_class = MealSerializer
 
+
 class MenuFilter(django_filters.FilterSet):
 
-    added_on__date = django_filters.DateTimeFilter(field_name='added_on', lookup_expr='date')
-    added_on__gt = django_filters.DateTimeFilter(field_name='added_on', lookup_expr='gt')
-    added_on__lt = django_filters.DateTimeFilter(field_name='added_on', lookup_expr='lt')
+    added_on__date = django_filters.DateTimeFilter(
+        field_name='added_on', lookup_expr='date')
+    added_on__gt = django_filters.DateTimeFilter(
+        field_name='added_on', lookup_expr='gt')
+    added_on__lt = django_filters.DateTimeFilter(
+        field_name='added_on', lookup_expr='lt')
 
-    modified_on__date = django_filters.DateTimeFilter(field_name='modified_on', lookup_expr='date')
-    modified_on__gt = django_filters.DateTimeFilter(field_name='modified_on', lookup_expr='gt')
-    modified_on__lt = django_filters.DateTimeFilter(field_name='modified_on', lookup_expr='lt')
+    modified_on__date = django_filters.DateTimeFilter(
+        field_name='modified_on', lookup_expr='date')
+    modified_on__gt = django_filters.DateTimeFilter(
+        field_name='modified_on', lookup_expr='gt')
+    modified_on__lt = django_filters.DateTimeFilter(
+        field_name='modified_on', lookup_expr='lt')
 
     name = django_filters.CharFilter(lookup_expr='icontains')
 
     class Meta:
         model = Menu
-        fields ={'modified_on' : ['lt', 'gt'] }
+        fields = {'modified_on': ['lt', 'gt']}
 
 
 class MenuList(generics.ListCreateAPIView):
@@ -96,9 +110,11 @@ class MenuList(generics.ListCreateAPIView):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     queryset = Menu.objects.filter(meal_count__gt=0).all()
     serializer_class = MenuSerializer
-    filter_backends = (filters.OrderingFilter,django_filters.DjangoFilterBackend)
+    filter_backends = (filters.OrderingFilter,
+                       django_filters.DjangoFilterBackend)
     ordering_fields = ['name', 'meal_count']
     filterset_class = MenuFilter
+
 
 class MenuDetail(generics.RetrieveUpdateDestroyAPIView):
     """ Get Update or Delete Menu """
@@ -113,9 +129,10 @@ class MenuMealDetail(mixins.RetrieveModelMixin, generics.GenericAPIView):
     queryset = Menu.objects.all()
     serializer_class = MenuMealSerializer
 
-    def get(self, request, *args, **kwargs):        
+    def get(self, request, *args, **kwargs):
         logger.info(f'Getting detailed view: {request},{args},{kwargs}')
         return self.retrieve(request, *args, **kwargs)
+
 
 class MenuMealList(mixins.ListModelMixin, generics.GenericAPIView):
     """ View Menus with Meals objects included """
@@ -123,7 +140,6 @@ class MenuMealList(mixins.ListModelMixin, generics.GenericAPIView):
     queryset = Menu.objects.all()
     serializer_class = MenuMealSerializer
 
-    def get(self, request, *args, **kwargs):        
+    def get(self, request, *args, **kwargs):
         logger.info(f'Getting List view: {request},{args},{kwargs}')
         return self.list(request, *args, **kwargs)
-

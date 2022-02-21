@@ -18,15 +18,18 @@ logger = logging.getLogger(__name__)
 UPDATE_PERIOD_DAYS = 1
 MSG_BODY_BEGINNING = "Nowinki w przepisach: \n"
 
+
 def get_date(days_ago=UPDATE_PERIOD_DAYS):
     now = timezone.now()
     date = now - timezone.timedelta(days=days_ago)
     return date
 
+
 def get_new_or_changed_meals(since=get_date()):
     recently_added = Q(added_on__gt=since)
     recently_modified = Q(modified_on__gt=since)
-    return Meal.objects.filter( recently_added | recently_modified).all()
+    return Meal.objects.filter(recently_added | recently_modified).all()
+
 
 def get_recipe_news(since=get_date()):
     recipes = []
@@ -37,6 +40,7 @@ def get_recipe_news(since=get_date()):
         return None
     result = MSG_BODY_BEGINNING + "\n".join(recipes)
     return result
+
 
 def get_recipients_for_news(inc_staff=False):
     emails = []
@@ -50,9 +54,11 @@ def get_recipients_for_news(inc_staff=False):
             emails.append(staff.email)
     return emails
 
+
 def send_email(sub, msg, frm, recp):
     """ Wrapper for django send_mail """
-    send_mail(sub,msg,frm,recp)
+    send_mail(sub, msg, frm, recp)
+
 
 @shared_task()
 def send_emails():
@@ -66,7 +72,7 @@ def send_emails():
     recipient_list = get_recipients_for_news()
     logger.info(f'sending to {recipient_list} following message:\n{message}')
     try:
-        send_email(subject,message,email_from,recipient_list)
+        send_email(subject, message, email_from, recipient_list)
         result = "Messages sent"
     except Exception as e:
         logger.error("Could not sent email message")

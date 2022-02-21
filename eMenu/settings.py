@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 from pathlib import Path
-import os 
+import os
 
 from celery.schedules import crontab
 
@@ -28,7 +28,7 @@ SECRET_KEY = 'django-insecure-9x^%o!rd!wjfdg3zs9#p=hem(8760zjrcc7tu@5f&kw_l%!#_w
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*','localhost','0.0.0.0','127.0.0.1']
+ALLOWED_HOSTS = ['*', 'localhost', '0.0.0.0', '127.0.0.1']
 
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
@@ -46,7 +46,6 @@ CELERY_BEAT_SCHEDULE = {
         "schedule": crontab(minute="*/1"),
     },
 }
-
 
 
 # Application definition
@@ -99,17 +98,17 @@ WSGI_APPLICATION = 'eMenu.wsgi.application'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
 DATABASES = {
-  'default': {
+    'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': os.environ.get('POSTGRES_NAME'),
         'USER': os.environ.get('POSTGRES_USER'),
         'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
         'HOST': 'db',
         'PORT': 5432,
-        'TEST' : {
+        'TEST': {
             'NAME': 'testpostgres',
-            #'HOST': 'localhost',
-            },
+            # 'HOST': 'localhost',
+        },
 
     },
     'sqllite': {
