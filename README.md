@@ -14,7 +14,6 @@ Following tests have been implemented:
 - API Service using DRF client for testing APIViews
 
 
-
 *Views and Serialization have NOT been tested with unit-tests because they use ready-made solution from DRF
 and therefor not much coding was required.*
 
@@ -23,14 +22,14 @@ Testing API REST service using tools provided with Django REST Framework has NOT
 *More investigation required.*
 
 ## Config 
-Configuration of database resides in **.env** file and **Docker-config** files
+Configuration of database is located  in **.env** file and **Docker-config** files
 
 ## Sample data:
 A script **addData.py** has been created to add data to database (using API).
 It can be used once the service is running.
 it works as follows:
 ```
-python addData.py [ meals <number_of_meals> ] [ menus <number_of_menus> <maximum_number_of_meals> ]
+python addData.py [ meals <number_of_meals> ] [ menus <number_of_menus> <maximum_number_of_meals> ] -l <login:passwd>
 ```
 
 ## Install and run
